@@ -43,7 +43,7 @@ if(Object.keys(newErrors).length > 0) return;
 try{
 
 await axios.post(
-"https://ideahub-api.onrender.com/signup",
+"https://ideahub-c0kt.onrender.com/signup",
 {name,email,password}
 );
 

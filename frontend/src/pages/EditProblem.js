@@ -14,7 +14,7 @@ const [error,setError] = useState("");
 
 useEffect(()=>{
 
-axios.get("http://localhost:5000/problems")
+axios.get("https://ideahub-c0kt.onrender.com")
 .then(res=>{
 
 const problem = res.data.find(p => p._id === id);
@@ -49,7 +49,7 @@ setLoading(true);
 const token = localStorage.getItem("token");
 
 await axios.put(
-`http://localhost:5000/problems/${id}`,
+`https://ideahub-c0kt.onrender.com/problems/${id}`,
 {
 title,
 description

@@ -8,7 +8,7 @@ const currentUserId = localStorage.getItem("userId");
 const isOwner = currentUserId === problem.userId;
 
 const imageUrl = problem.image
-? `http://localhost:5000/uploads/${problem.image}`
+? `https://ideahub-c0kt.onrender.com/uploads/${problem.image}`
 : "https://via.placeholder.com/400x250";
 
 const [burst,setBurst] = useState(false);

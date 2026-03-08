@@ -12,7 +12,7 @@ const userName = localStorage.getItem("userName");
 useEffect(()=>{
 
 // get all problems
-axios.get("https://ideahub-api.onrender.com/problems")
+axios.get("https://ideahub-c0kt.onrender.com/problems")
 .then(res=>{
 
 const userProblems = res.data.filter(p => p.userId === userId);
@@ -21,7 +21,7 @@ setProblems(userProblems);
 });
 
 // get all solutions
-axios.get("https://ideahub-api.onrender.com/solutions")
+axios.get("https://ideahub-c0kt.onrender.com/solutions")
 .then(res=>{
 
 const userSolutions = res.data.filter(s => s.userId === userId);

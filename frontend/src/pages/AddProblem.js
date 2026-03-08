@@ -56,7 +56,7 @@ formData.append("image",image);
 }
 
 await axios.post(
-"https://ideahub-api.onrender.com/problems",
+"https://ideahub-c0kt.onrender.com",
 formData,
 {
 headers:{

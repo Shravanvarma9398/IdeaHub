@@ -43,7 +43,7 @@ try{
 setLoading(true);
 
 const res = await axios.post(
-"https://ideahub-api.onrender.com/login",
+"https://ideahub-c0kt.onrender.com/login",
 {email,password}
 );
 

@@ -17,13 +17,13 @@ alert("Collaboration feature coming soon 🚀");
 
 useEffect(()=>{
 
-axios.get("https://ideahub-api.onrender.com/problems")
+axios.get("https://ideahub-c0kt.onrender.com/problems")
 .then(res=>{
 const found = res.data.find(p=>p._id === id);
 setProblem(found);
 });
 
-axios.get(`https://ideahub-api.onrender.com/solutions/${id}`)
+axios.get(`https://ideahub-c0kt.onrender.com/solutions/${id}`)
 .then(res=>setSolutions(res.data));
 
 },[id]);
@@ -40,7 +40,7 @@ try{
 const token = localStorage.getItem("token");
 
 await axios.post(
-"https://ideahub-api.onrender.com/solutions",
+"https://ideahub-c0kt.onrender.com/solutions",
 {
 problemId:id,
 solutionText:text
@@ -52,7 +52,7 @@ headers:{ authorization:token }
 
 setText("");
 
-const res = await axios.get(`https://ideahub-api.onrender.com/solutions/${id}`);
+const res = await axios.get(`https://ideahub-c0kt.onrender.com/solutions/${id}`);
 setSolutions(res.data);
 
 }catch(err){

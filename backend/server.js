@@ -24,7 +24,7 @@ const User = require("./models/User");
    MONGODB CONNECTION
 ============================= */
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URL)
 .then(()=> console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 

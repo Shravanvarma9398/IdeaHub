@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ProblemCard from "../components/ProblemCard";
 
-const API = "https://ideahub-api.onrender.com";
+const API = "https://ideahub-c0kt.onrender.com";
 
 function Home(){
 
@@ -59,15 +59,11 @@ return(
 
 <div className="px-4 sm:px-10 py-6 bg-gray-100 min-h-screen max-w-7xl mx-auto">
 
-{/* SEARCH */}
-
 <input
 className="border p-2 mb-6 w-full rounded"
 placeholder="Search problems..."
 onChange={(e)=>setSearch(e.target.value)}
 />
-
-{/* PROBLEMS GRID */}
 
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
