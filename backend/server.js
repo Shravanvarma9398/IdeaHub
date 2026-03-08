@@ -13,8 +13,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// serve uploaded images
+/* =============================
+   SERVE UPLOADED IMAGES
+============================= */
+
 app.use("/uploads", express.static("uploads"));
+
+/* =============================
+   MODELS
+============================= */
 
 const Problem = require("./models/Problem");
 const Solution = require("./models/Solution");
@@ -29,7 +36,7 @@ mongoose.connect(process.env.MONGO_URL)
 .catch(err => console.log(err));
 
 /* =============================
-   MULTER IMAGE UPLOAD SETUP
+   MULTER IMAGE UPLOAD
 ============================= */
 
 const storage = multer.diskStorage({
@@ -80,7 +87,7 @@ res.send("IdeaHub API Running");
 });
 
 /* =============================
-   SIGNUP API
+   SIGNUP
 ============================= */
 
 app.post("/signup", async (req,res)=>{
@@ -102,16 +109,20 @@ await user.save();
 res.json({message:"User created"});
 
 }catch(err){
+
 res.status(500).json(err);
+
 }
 
 });
 
 /* =============================
-   LOGIN API
+   LOGIN
 ============================= */
 
 app.post("/login", async (req,res)=>{
+
+try{
 
 const {email,password} = req.body;
 
@@ -138,6 +149,104 @@ token,
 user
 });
 
+}catch(err){
+res.status(500).json(err);
+}
+
+});
+
+/* =============================
+   GET ALL PROBLEMS
+============================= */
+
+app.get("/problems", async (req,res)=>{
+
+try{
+
+const problems = await Problem.find().sort({votes:-1});
+
+res.json(problems);
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+/* =============================
+   ADD PROBLEM
+============================= */
+
+app.post("/problems", authMiddleware, async (req,res)=>{
+
+try{
+
+const {title,description,category} = req.body;
+
+const problem = new Problem({
+title,
+description,
+category,
+votes:0,
+user:req.user.id
+});
+
+await problem.save();
+
+res.json(problem);
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+/* =============================
+   VOTE PROBLEM
+============================= */
+
+app.put("/vote/:id", async (req,res)=>{
+
+try{
+
+const problem = await Problem.findById(req.params.id);
+
+problem.votes += 1;
+
+await problem.save();
+
+res.json(problem);
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+/* =============================
+   DELETE PROBLEM
+============================= */
+
+app.delete("/problems/:id", authMiddleware, async (req,res)=>{
+
+try{
+
+await Problem.findByIdAndDelete(req.params.id);
+
+res.json({message:"Problem deleted"});
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
 });
 
 /* =============================
@@ -147,5 +256,5 @@ user
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, ()=>{
-console.log(`Server running on port $ {PORT}`);
+console.log(`Server running on port ${PORT}`);
 });
