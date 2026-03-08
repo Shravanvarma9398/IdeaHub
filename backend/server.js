@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -18,7 +20,11 @@ const Problem = require("./models/Problem");
 const Solution = require("./models/Solution");
 const User = require("./models/User");
 
-mongoose.connect("mongodb://127.0.0.1:27017/problemhub")
+/* =============================
+   MONGODB CONNECTION
+============================= */
+
+mongoose.connect(process.env.MONGO_URI)
 .then(()=> console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
@@ -51,7 +57,7 @@ return res.status(401).json("No token");
 
 try{
 
-const verified = jwt.verify(token,"secretkey");
+const verified = jwt.verify(token, process.env.JWT_SECRET);
 
 req.user = verified;
 
@@ -123,7 +129,7 @@ return res.status(400).json({message:"Invalid password"});
 
 const token = jwt.sign(
 {id:user._id},
-"secretkey",
+process.env.JWT_SECRET,
 {expiresIn:"1d"}
 );
 
@@ -135,219 +141,11 @@ user
 });
 
 /* =============================
-   CREATE PROBLEM WITH IMAGE
-============================= */
-
-app.post("/problems", authMiddleware, upload.single("image"), async (req,res)=>{
-
-try{
-
-const user = await User.findById(req.user.id);
-
-const problem = new Problem({
-
-title:req.body.title,
-description:req.body.description,
-category:req.body.category,
-
-userId:user._id,
-userName:user.name,
-userEmail:user.email,
-
-image:req.file ? req.file.filename : "",
-
-votes:0
-
-});
-
-await problem.save();
-
-res.json(problem);
-
-}catch(err){
-
-console.log(err);
-res.status(500).json("Server error");
-
-}
-
-});
-
-/* =============================
-   GET ALL PROBLEMS
-============================= */
-
-app.get("/problems", async (req,res)=>{
-
-const problems = await Problem.find().sort({ votes: -1 });
-
-res.json(problems);
-
-});
-
-/* =============================
-   GET SINGLE PROBLEM
-============================= */
-
-app.get("/problems/:id", async (req,res)=>{
-
-try{
-
-const problem = await Problem.findById(req.params.id);
-
-if(!problem){
-return res.status(404).json("Problem not found");
-}
-
-res.json(problem);
-
-}catch(err){
-
-console.log(err);
-res.status(500).json("Server error");
-
-}
-
-});
-
-/* =============================
-   DELETE PROBLEM
-============================= */
-
-app.delete("/problems/:id", authMiddleware, async (req,res)=>{
-
-const problem = await Problem.findById(req.params.id);
-
-if(problem.userId.toString() !== req.user.id){
-return res.status(403).json("Not allowed");
-}
-
-await problem.deleteOne();
-
-res.json("Problem deleted");
-
-});
-
-/* =============================
-   VOTE PROBLEM
-============================= */
-
-app.put("/vote/:id", async (req,res)=>{
-
-const problem = await Problem.findById(req.params.id);
-
-problem.votes += 1;
-
-await problem.save();
-
-res.json(problem);
-
-});
-
-/* =============================
-   ADD COMMUNITY SUPPORT
-============================= */
-
-app.post("/solutions", authMiddleware, async (req,res)=>{
-
-const user = await User.findById(req.user.id);
-
-const solution = new Solution({
-
-problemId:req.body.problemId,
-solutionText:req.body.solutionText,
-
-userId:user._id,
-userName:user.name
-
-});
-
-await solution.save();
-
-res.json(solution);
-
-});
-
-/* =============================
-   GET ALL SOLUTIONS
-============================= */
-
-app.get("/solutions", async (req,res)=>{
-
-const solutions = await Solution.find();
-
-res.json(solutions);
-
-});
-
-/* =============================
-   GET SOLUTIONS FOR PROBLEM
-============================= */
-
-app.get("/solutions/:problemId", async (req,res)=>{
-
-const solutions = await Solution.find({
-problemId:req.params.problemId
-});
-
-res.json(solutions);
-
-});
-
-/* =============================
-   UPDATE PROBLEM
-============================= */
-
-app.put("/problems/:id", authMiddleware, async (req,res)=>{
-
-try{
-
-const problem = await Problem.findById(req.params.id);
-
-if(!problem){
-return res.status(404).json("Problem not found");
-}
-
-if(problem.userId.toString() !== req.user.id){
-return res.status(403).json("Not allowed");
-}
-
-problem.title = req.body.title;
-problem.description = req.body.description;
-
-await problem.save();
-
-res.json(problem);
-
-}catch(err){
-console.log(err);
-res.status(500).json("Server error");
-}
-
-});
-
-/* =============================
-   DELETE SOLUTION
-============================= */
-
-app.delete("/solutions/:id", authMiddleware, async (req,res)=>{
-
-const solution = await Solution.findById(req.params.id);
-
-if(solution.userId.toString() !== req.user.id){
-return res.status(403).json("Not allowed");
-}
-
-await solution.deleteOne();
-
-res.json("Solution deleted");
-
-});
-
-/* =============================
    SERVER START
 ============================= */
 
-app.listen(5000, ()=>{
-console.log("Server running on port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, ()=>{
+console.log("Server running on port", PORT);
 });
