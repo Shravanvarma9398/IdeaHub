@@ -56,11 +56,12 @@ formData.append("image",image);
 }
 
 await axios.post(
-"https://ideahub-c0kt.onrender.com",
+"https://ideahub-c0kt.onrender.com/problems",
 formData,
 {
 headers:{
-authorization:token
+authorization: token,
+"Content-Type": "multipart/form-data"
 }
 }
 );

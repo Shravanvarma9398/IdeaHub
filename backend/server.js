@@ -176,10 +176,10 @@ res.status(500).json(err);
 });
 
 /* =============================
-   ADD PROBLEM
+   ADD PROBLEM (WITH IMAGE)
 ============================= */
 
-app.post("/problems", authMiddleware, async (req,res)=>{
+app.post("/problems", authMiddleware, upload.single("image"), async (req,res)=>{
 
 try{
 
@@ -190,7 +190,8 @@ title,
 description,
 category,
 votes:0,
-user:req.user.id
+user:req.user.id,
+image: req.file ? req.file.filename : null
 });
 
 await problem.save();
