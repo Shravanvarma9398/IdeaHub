@@ -59,25 +59,51 @@ alert("Failed to add solution");
 
 };
 
-if(!problem) return <div>Loading...</div>;
+if(!problem) return <div className="p-10">Loading...</div>;
 
 return(
 
-<div className="p-10">
+<div className="max-w-4xl mx-auto p-10">
 
-<h1 className="text-3xl font-bold">{problem.title}</h1>
+{/* Title */}
+<h1 className="text-3xl font-bold mb-6">{problem.title}</h1>
 
-<p style={{whiteSpace: "pre-line"}}>{problem.description}</p>
+{/* Idea Image */}
+{problem.image && (
+<img
+src={problem.image}
+alt="idea"
+className="w-full h-72 object-cover rounded-lg mb-6"
+/>
+)}
 
-<h2 className="text-xl mt-8">Community Support</h2>
+{/* Description */}
+<div className="bg-white shadow-md rounded-lg p-6">
+
+<p
+style={{
+whiteSpace:"pre-line",
+lineHeight:"1.7",
+fontSize:"16px"
+}}
+>
+{problem.description}
+</p>
+
+</div>
+
+{/* Community Support */}
+<h2 className="text-xl font-semibold mt-10 mb-4">
+Community Support
+</h2>
 
 {solutions.map(s=>(
 
-<div key={s._id} className="bg-gray-100 p-3 mt-3 rounded">
+<div key={s._id} className="bg-gray-100 p-4 mt-3 rounded-lg">
 
-<p>{s.solutionText}</p>
+<p className="text-gray-800">{s.solutionText}</p>
 
-<p className="text-xs text-gray-500">
+<p className="text-xs text-gray-500 mt-2">
 supported by {s.userName}
 </p>
 
@@ -85,14 +111,16 @@ supported by {s.userName}
 
 ))}
 
+{/* Add Support */}
 <textarea
-className="border p-2 w-full mt-6"
+className="border p-3 w-full mt-6 rounded"
+placeholder="Share your suggestion or support..."
 value={text}
 onChange={(e)=>setText(e.target.value)}
 />
 
 <button
-className="bg-green-600 text-white px-4 py-2 mt-3 rounded"
+className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 mt-3 rounded"
 onClick={addSolution}
 >
 Share Support
