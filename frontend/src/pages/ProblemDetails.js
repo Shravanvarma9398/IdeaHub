@@ -67,7 +67,7 @@ return(
 
 <h1 className="text-3xl font-bold">{problem.title}</h1>
 
-<p className="mt-4">{problem.description}</p>
+<p style={{whiteSpace: "pre-line"}}>{problem.description}</p>
 
 <h2 className="text-xl mt-8">Community Support</h2>
 
