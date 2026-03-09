@@ -197,7 +197,7 @@ votes:0,
 user:req.user.id,
 userName:user.name,
 userEmail:user.email,
-image: req.file ? req.file.filename : null
+image: req.file ? req.file.path : null
 });
 
 await problem.save();
