@@ -176,7 +176,7 @@ res.status(500).json(err);
 });
 
 /* =============================
-   ADD PROBLEM (WITH IMAGE)
+   ADD PROBLEM
 ============================= */
 
 app.post("/problems", authMiddleware, upload.single("image"), async (req,res)=>{
@@ -241,6 +241,59 @@ try{
 await Problem.findByIdAndDelete(req.params.id);
 
 res.json({message:"Problem deleted"});
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+/* =============================
+   ADD SOLUTION
+============================= */
+
+app.post("/solutions", authMiddleware, async (req,res)=>{
+
+try{
+
+const {problemId, solutionText} = req.body;
+
+const user = await User.findById(req.user.id);
+
+const solution = new Solution({
+problemId,
+solutionText,
+userId:req.user.id,
+userName:user.name
+});
+
+await solution.save();
+
+res.json(solution);
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+/* =============================
+   GET SOLUTIONS FOR PROBLEM
+============================= */
+
+app.get("/solutions/:problemId", async (req,res)=>{
+
+try{
+
+const solutions = await Solution.find({
+problemId:req.params.problemId
+}).sort({createdAt:-1});
+
+res.json(solutions);
 
 }catch(err){
 

@@ -14,7 +14,7 @@ const [error,setError] = useState("");
 
 useEffect(()=>{
 
-axios.get("https://ideahub-c0kt.onrender.com")
+axios.get("https://ideahub-c0kt.onrender.com/problems")
 .then(res=>{
 
 const problem = res.data.find(p => p._id === id);
