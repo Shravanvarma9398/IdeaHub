@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 function ProblemCard({ problem, onVote, onDelete }) {
 
 const currentUserId = localStorage.getItem("userId");
-const isOwner = currentUserId === problem.userId;
+
+/* FIX: backend stores owner as "user" */
+const isOwner = currentUserId === problem.user;
 
 const imageUrl = problem.image
 ? `https://ideahub-c0kt.onrender.com/uploads/${problem.image}`
@@ -24,6 +26,7 @@ return (
 <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition flex flex-col w-full">
 
 {/* IMAGE */}
+
 <div className="relative w-full bg-gray-100 flex items-center justify-center">
 
 <img
@@ -32,8 +35,10 @@ alt="idea"
 className="w-full h-72 sm:h-80 lg:h-96 object-contain"
 />
 
+{/* IDEA OWNER BADGE */}
+
 {isOwner && (
-<span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full shadow">
+<span className="absolute top-3 left-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow">
 Your Idea
 </span>
 )}
@@ -51,12 +56,14 @@ Your Idea
 </h2>
 
 <p className="text-xs sm:text-sm text-gray-500">
-Posted by {problem.userName}
+Posted by {problem.userName || "Anonymous"}
 </p>
 
-<p className="text-xs text-gray-400 mt-1">
+{/* CATEGORY BADGE */}
+
+<span className="inline-block mt-1 text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
 {problem.category}
-</p>
+</span>
 
 </div>
 

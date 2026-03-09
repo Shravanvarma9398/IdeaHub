@@ -191,6 +191,7 @@ description,
 category,
 votes:0,
 user:req.user.id,
+userName:user.name,
 image: req.file ? req.file.filename : null
 });
 
