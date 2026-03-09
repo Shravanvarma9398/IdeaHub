@@ -11,16 +11,14 @@ const userName = localStorage.getItem("userName");
 
 useEffect(()=>{
 
-// get all problems
 axios.get("https://ideahub-c0kt.onrender.com/problems")
 .then(res=>{
 
-const userProblems = res.data.filter(p => p.userId === userId);
+const userProblems = res.data.filter(p => p.user === userId);
 setProblems(userProblems);
 
 });
 
-// get all solutions
 axios.get("https://ideahub-c0kt.onrender.com/solutions")
 .then(res=>{
 

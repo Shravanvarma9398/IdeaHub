@@ -287,6 +287,64 @@ res.status(500).json(err);
 });
 
 /* =============================
+   UPDATE PROBLEM
+============================= */
+
+app.put("/problems/:id", authMiddleware, async (req,res)=>{
+
+try{
+
+const { title, description } = req.body;
+
+const problem = await Problem.findById(req.params.id);
+
+if(!problem){
+return res.status(404).json({message:"Problem not found"});
+}
+
+if(problem.user !== req.user.id){
+return res.status(403).json({message:"Not authorized"});
+}
+
+problem.title = title;
+problem.description = description;
+
+await problem.save();
+
+res.json(problem);
+
+}catch(err){
+
+console.log(err);
+res.status(500).json(err);
+
+}
+
+});
+
+
+/* =============================
+   GET ALL SOLUTIONS
+============================= */
+
+app.get("/solutions", async (req,res)=>{
+
+try{
+
+const solutions = await Solution.find();
+
+res.json(solutions);
+
+}catch(err){
+
+res.status(500).json(err);
+
+}
+
+});
+
+
+/* =============================
    GET SOLUTIONS FOR PROBLEM
 ============================= */
 

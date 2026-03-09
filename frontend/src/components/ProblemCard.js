@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function ProblemCard({ problem, onVote, onDelete }) {
 
 const currentUserId = localStorage.getItem("userId");
-const isOwner = currentUserId === problem.user;
+const isOwner = problem.user === currentUserId;
 
 const imageUrl = problem.image
 ? `https://ideahub-c0kt.onrender.com/uploads/${problem.image}`
