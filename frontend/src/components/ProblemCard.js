@@ -8,12 +8,11 @@ function ProblemCard({ problem, onVote, onDelete }) {
   const isOwner = problem.user === currentUserId;
 
   // Clean Cloudinary public_id if it contains folder prefix
-  const publicId = problem.image ? problem.image.replace("ideahub/", "") : null;
+ const publicId = problem.image ? problem.image.replace("ideahub/", "") : null;
 
-  const imageUrl = publicId
-    ? `https://res.cloudinary.com/damgriq01/image/upload/${publicId}`
-    : "https://via.placeholder.com/400x250?text=IdeaHub";
-
+const imageUrl = publicId
+  ? `https://res.cloudinary.com/damgriq01/image/upload/${publicId}.jpg`
+  : "https://via.placeholder.com/400x250?text=IdeaHub";
   const [burst, setBurst] = useState(false);
 
   const handleLike = () => {
