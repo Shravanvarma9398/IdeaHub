@@ -11,7 +11,7 @@ function ProblemCard({ problem, onVote, onDelete }) {
  const publicId = problem.image ? problem.image.replace("ideahub/", "") : null;
 
 const imageUrl = publicId
-  ? `https://res.cloudinary.com/damgriq01/image/upload/${publicId}.jpg`
+  ? `https://res.cloudinary.com/damgriq01/image/upload/${publicId}`
   : "https://via.placeholder.com/400x250?text=IdeaHub";
   const [burst, setBurst] = useState(false);
 
