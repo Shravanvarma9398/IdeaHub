@@ -39,13 +39,16 @@ mongoose.connect(process.env.MONGO_URL)
    MULTER IMAGE UPLOAD
 ============================= */
 
-const storage = multer.diskStorage({
-destination: function (req, file, cb) {
-cb(null, "uploads/");
-},
-filename: function (req, file, cb) {
-cb(null, Date.now() + path.extname(file.originalname));
-}
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("./cloudinary");
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "ideahub",
+    allowed_formats: ["jpg", "png", "jpeg"]
+  }
 });
 
 const upload = multer({ storage });
