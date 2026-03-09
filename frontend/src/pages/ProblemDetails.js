@@ -59,7 +59,10 @@ alert("Failed to add solution");
 
 };
 
+/* ---------- CLEAN DESCRIPTION FORMATTER ---------- */
+
 const formatDescription = (text)=>{
+
 if(!text) return null;
 
 const sections = [
@@ -75,66 +78,136 @@ const sections = [
 
 let formatted = text;
 
+/* force line breaks before sections */
+
 sections.forEach(section=>{
-const regex = new RegExp(section,"g");
+const regex = new RegExp(section,"gi");
 formatted = formatted.replace(regex,`\n\n${section}\n`);
 });
 
+/* split into paragraphs */
+
 return formatted.split("\n").map((line,index)=>{
 
-if(sections.includes(line.trim())){
-return(
+const trimmed = line.trim();
 
-<h3 key={index} className="text-xl font-semibold mt-6 text-gray-800">
-{line}
-</h3>
+if(trimmed === "") return null;
+
+if(sections.includes(trimmed)){
+
+return(
+<h2
+key={index}
+style={{
+fontSize:"22px",
+fontWeight:"600",
+marginTop:"28px",
+marginBottom:"8px",
+color:"#1f2937"
+}}
+>
+{trimmed}
+</h2>
 );
+
 }
 
-return line.trim() !== "" ? (
+return(
 
-<p key={index} className="text-gray-600 leading-7 mt-2">
-{line}
+<p
+key={index}
+style={{
+lineHeight:"1.8",
+fontSize:"16px",
+color:"#374151",
+marginTop:"6px"
+}}
+>
+{trimmed}
 </p>
-) : null;
+
+);
 
 });
+
 };
 
-if(!problem) return <div className="p-10">Loading...</div>;
+if(!problem) return <div style={{padding:"40px"}}>Loading...</div>;
 
 return(
 
-<div className="max-w-4xl mx-auto p-10">
+<div
+style={{
+maxWidth:"900px",
+margin:"40px auto",
+padding:"20px"
+}}
+>
 
-<h1 className="text-3xl font-bold text-gray-900 mb-6">
+<h1
+style={{
+fontSize:"32px",
+fontWeight:"700",
+marginBottom:"25px",
+color:"#111827"
+}}
+>
 {problem.title}
 </h1>
 
-{problem.image && ( <img
+{problem.image && (
+
+<img
 src={problem.image}
 alt="idea"
-className="w-full h-72 object-cover rounded-lg mb-6"
+style={{
+width:"100%",
+height:"320px",
+objectFit:"cover",
+borderRadius:"10px",
+marginBottom:"25px"
+}}
 />
+
 )}
 
 <div>
 {formatDescription(problem.description)}
 </div>
 
-<h2 className="text-xl font-semibold mt-10 mb-4">
+<h2
+style={{
+fontSize:"22px",
+fontWeight:"600",
+marginTop:"40px"
+}}
+>
 Community Support
 </h2>
 
 {solutions.map(s=>(
 
-<div key={s._id} className="bg-gray-100 p-4 mt-3 rounded-lg">
+<div
+key={s._id}
+style={{
+background:"#f3f4f6",
+padding:"16px",
+marginTop:"12px",
+borderRadius:"8px"
+}}
+>
 
-<p className="text-gray-700">
+<p style={{color:"#374151"}}>
 {s.solutionText}
 </p>
 
-<p className="text-xs text-gray-500 mt-2">
+<p
+style={{
+fontSize:"12px",
+color:"#6b7280",
+marginTop:"6px"
+}}
+>
 supported by {s.userName}
 </p>
 
@@ -143,14 +216,28 @@ supported by {s.userName}
 ))}
 
 <textarea
-className="border rounded p-3 w-full mt-6"
+style={{
+border:"1px solid #ddd",
+borderRadius:"6px",
+padding:"12px",
+width:"100%",
+marginTop:"25px"
+}}
 placeholder="Share your support or improvement..."
 value={text}
 onChange={(e)=>setText(e.target.value)}
 />
 
 <button
-className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 mt-3 rounded"
+style={{
+background:"#16a34a",
+color:"#fff",
+padding:"10px 18px",
+marginTop:"12px",
+borderRadius:"6px",
+border:"none",
+cursor:"pointer"
+}}
 onClick={addSolution}
 >
 Share Support
