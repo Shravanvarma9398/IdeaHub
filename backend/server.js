@@ -185,6 +185,8 @@ try{
 
 const {title,description,category} = req.body;
 
+const user = await User.findById(req.user.id);
+
 const problem = new Problem({
 title,
 description,
@@ -192,6 +194,7 @@ category,
 votes:0,
 user:req.user.id,
 userName:user.name,
+userEmail:user.email,
 image: req.file ? req.file.filename : null
 });
 
@@ -201,6 +204,7 @@ res.json(problem);
 
 }catch(err){
 
+console.log(err);
 res.status(500).json(err);
 
 }

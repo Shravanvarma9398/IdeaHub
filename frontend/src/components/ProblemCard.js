@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 function ProblemCard({ problem, onVote, onDelete }) {
 
 const currentUserId = localStorage.getItem("userId");
-
-/* FIX: backend stores owner as "user" */
 const isOwner = currentUserId === problem.user;
 
 const imageUrl = problem.image
 ? `https://ideahub-c0kt.onrender.com/uploads/${problem.image}`
-: "https://via.placeholder.com/400x250";
+: "https://via.placeholder.com/400x250?text=IdeaHub";
 
 const [burst,setBurst] = useState(false);
 
@@ -32,7 +30,7 @@ return (
 <img
 src={imageUrl}
 alt="idea"
-className="w-full h-72 sm:h-80 lg:h-96 object-contain"
+className="w-full h-64 object-cover"
 />
 
 {/* IDEA OWNER BADGE */}
